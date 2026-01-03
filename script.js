@@ -78,6 +78,9 @@ function update() {
   }
 
   snake.unshift(head);
+  if(selfCollision(head)){
+    return gameOver();
+  }
 if (head.x === food.x && head.y === food.y) {
   score++;
 
@@ -91,7 +94,12 @@ if (head.x === food.x && head.y === food.y) {
 }
 
 }
-
+/*-----------SELF COLLISION--------*/
+function selfCollision(head) {
+  return snake.slice(1).some(segment =>
+    segment.x === head.x && segment.y === head.y
+  );
+}
 /* ---------- DRAW ---------- */
 function draw() {
   Object.values(blocks).forEach(b =>
@@ -144,3 +152,16 @@ restartBtn.addEventListener("click", () => {
   resetGame();
   interval = setInterval(gameLoop, 250);
 });
+
+
+
+
+// Self-collision detection
+
+// Speed increase with score
+
+// Persistent high score using localStorage
+
+// Mobile touch controls
+
+// Sound effects

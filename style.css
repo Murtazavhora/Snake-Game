@@ -73,11 +73,52 @@ section .infos{
     display:grid;
     flex-grow: 1;
     border: 1px solid var(--border-primary-color);
-    grid-template-rows: repeat(auto-fill,minmax(30px,1fr));
-    grid-template-columns: repeat(auto-fill,minmax(30px,1fr));
+    grid-template-rows: repeat(auto-fill,minmax(50px,1fr));
+    grid-template-columns: repeat(auto-fill,minmax(50px,1fr));
 
 }
 
 .block{
     border: 1px solid var(--border-primary-color);
+}
+
+.fill{
+    background-color: #fdfdfc;
+}
+.food{
+    background-color: #ff3b3b;
+}
+
+.modal{
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    background-color: #35353587;
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal .start-game {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: var(--space-lg);
+}
+.btn{
+    padding: var(--space-sm) var(--space-md);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: all 0.3s ease ;
+}
+.btn:hover{
+    transform: scale(1.1);
+}
+.restart{
+    display: none;
+flex-direction: column;
+align-items: center;
+gap: var(--space-lg);
 }
