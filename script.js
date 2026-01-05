@@ -19,7 +19,7 @@ let snake;
 let food;
 let direction;
 let score = 0;
-let highscore = 0;
+let highscore = Number(localStorage.getItem("highscore")) || 0;
 
 /* ---------- GRID ---------- */
 for (let r = 0; r < rows; r++) {
@@ -86,6 +86,7 @@ if (head.x === food.x && head.y === food.y) {
 
   if (score > highscore) {
     highscore = score;
+    localStorage.setItem("highscore",highscore);
   }
 
   food = spawnFood();
@@ -130,6 +131,8 @@ function gameOver() {
   document.querySelector(".restart").style.display = "flex";
 }
 
+
+
 /* ---------- CONTROLS ---------- */
 addEventListener("keydown", e => {
   if (e.key === "ArrowUp" && direction !== "down") direction = "up";
@@ -157,11 +160,5 @@ restartBtn.addEventListener("click", () => {
 
 
 // Self-collision detection
-
-// Speed increase with score
-
 // Persistent high score using localStorage
-
-// Mobile touch controls
-
 // Sound effects
