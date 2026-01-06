@@ -12,9 +12,13 @@ const cols = Math.floor(board.clientWidth / blockSize);
 board.style.setProperty("--rows", rows);
 board.style.setProperty("--cols", cols);
 
+let time = 0;
+let timeInterval = null;
+const timeDisplay = document.querySelector(".Time");
+
+
 const blocks = {};
 let interval;
-
 let snake;
 let food;
 let direction;
@@ -36,6 +40,7 @@ function resetGame() {
   snake = [{ x: 1, y: 3 }];
   direction = "down";
   score = 0;
+  time = 0;
   food = spawnFood();
   draw();
 }
@@ -93,8 +98,28 @@ if (head.x === food.x && head.y === food.y) {
 } else {
   snake.pop();
 }
-
 }
+
+/*----TIMER----*/
+function updateTimer() {
+  time++;
+  timeDisplay.textContent = time;
+}
+function startTimer() {
+  stopTimer();      // safety
+  time = 0;         // reset state
+  timeDisplay.textContent = 0;
+
+  timeInterval = setInterval(updateTimer, 1000);
+}
+function stopTimer() {
+  if (timeInterval) {
+    clearInterval(timeInterval);
+    timeInterval = null;
+  }
+}
+
+
 /*-----------SELF COLLISION--------*/
 function selfCollision(head) {
   return snake.slice(1).some(segment =>
@@ -126,9 +151,11 @@ function gameLoop() {
 /* ---------- GAME OVER ---------- */
 function gameOver() {
   clearInterval(interval);
+  stopTimer();
   modal.style.display = "flex";
   document.querySelector(".start-game").style.display = "none";
   document.querySelector(".restart").style.display = "flex";
+
 }
 
 
@@ -145,7 +172,9 @@ addEventListener("keydown", e => {
 startBtn.addEventListener("click", () => {
   modal.style.display = "none";
   resetGame();
+  startTimer();
   interval = setInterval(gameLoop, 250);
+
 });
 
 restartBtn.addEventListener("click", () => {
@@ -153,12 +182,8 @@ restartBtn.addEventListener("click", () => {
   document.querySelector(".restart").style.display = "none";
   document.querySelector(".start-game").style.display = "flex";
   resetGame();
+  startTimer();
   interval = setInterval(gameLoop, 250);
 });
 
-
-
-
-// Self-collision detection
-// Persistent high score using localStorage
 // Sound effects
