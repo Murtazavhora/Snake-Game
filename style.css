@@ -75,7 +75,7 @@ section .infos{
     border: 1px solid var(--border-primary-color);
     grid-template-rows: repeat(auto-fill,minmax(50px,1fr));
     grid-template-columns: repeat(auto-fill,minmax(50px,1fr));
-
+    touch-action: none;
 }
 
 .block{

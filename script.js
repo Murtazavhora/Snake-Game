@@ -9,6 +9,12 @@ const blockSize = 50;
 const rows = Math.floor(board.clientHeight / blockSize);
 const cols = Math.floor(board.clientWidth / blockSize);
 
+let touchStartX = 0;
+let touchStartY = 0;
+let touchEndX = 0;
+let touchEndY = 0;
+
+
 board.style.setProperty("--rows", rows);
 board.style.setProperty("--cols", cols);
 
@@ -106,8 +112,8 @@ function updateTimer() {
   timeDisplay.textContent = time;
 }
 function startTimer() {
-  stopTimer();      // safety
-  time = 0;         // reset state
+  stopTimer();      
+  time = 0;         
   timeDisplay.textContent = 0;
 
   timeInterval = setInterval(updateTimer, 1000);
@@ -167,6 +173,39 @@ addEventListener("keydown", e => {
   if (e.key === "ArrowLeft" && direction !== "right") direction = "left";
   if (e.key === "ArrowRight" && direction !== "left") direction = "right";
 });
+
+
+/* ---------- TOUCH CONTROLS ---------- */
+board.addEventListener("touchstart", e => {
+  const touch = e.touches[0];
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
+});
+
+board.addEventListener("touchend", e => {
+  const touch = e.changedTouches[0];
+  touchEndX = touch.clientX;
+  touchEndY = touch.clientY;
+
+  handleSwipe();
+});
+function handleSwipe() {
+  const dx = touchEndX - touchStartX;
+  const dy = touchEndY - touchStartY;
+
+  // ignore small accidental swipes
+  if (Math.abs(dx) < 30 && Math.abs(dy) < 30) return;
+
+  if (Math.abs(dx) > Math.abs(dy)) {
+    // horizontal swipe
+    if (dx > 0 && direction !== "left") direction = "right";
+    else if (dx < 0 && direction !== "right") direction = "left";
+  } else {
+    // vertical swipe
+    if (dy > 0 && direction !== "up") direction = "down";
+    else if (dy < 0 && direction !== "down") direction = "up";
+  }
+}
 
 /* ---------- START / RESTART ---------- */
 startBtn.addEventListener("click", () => {
